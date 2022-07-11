@@ -1,13 +1,23 @@
 import random
 
-
 def generate_maze(size, seed=None):
+    """ Random Depth-First Search Maze Generator 
+    
+    The maze is represented as a 2D matrix of values.
+    0 - Empty space
+    1 - Wall
+    (Later we use 2 and 3 to represent the beginning and end in the A* algorithm)
+    
+    The maze starts out as a 2D matrix of pure 1's (walls), then two points are chosen and 
+    the wall between them is removed to connect them visually.
+    """
+
     random.seed(seed)
 
     assert size % 2 != 0, "Maze size must be odd"
 
-    maze = [[1 for _ in range(size)] for _ in range(size)] # Representation of the maze, with walls inbetween each node.
-    x,y = random.randint(0,size//2),random.randint(0,size//2) # Choose a random starting point
+    maze = [[1 for _ in range(size)] for _ in range(size)] # Representation of the maze, with walls in-between each node.
+    x,y = random.randint(0,size//2),random.randint(0,size//2) # Choose a random starting point in half the defined space
     stack = [(x,y)]
 
     while stack:
@@ -33,10 +43,3 @@ def generate_maze(size, seed=None):
             x,y = stack.pop()
 
     return maze
-
-
-if __name__=="__main__":
-    m = generate_maze(5)
-    #print(m)
-    for l in m:
-        print(l)

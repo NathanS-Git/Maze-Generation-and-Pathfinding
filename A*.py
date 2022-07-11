@@ -3,15 +3,14 @@ import pygame as pg
 from randdfs import generate_maze
 
 
-# Default functions used in the algorithm
-def h_euclid(pos, goal): # Use euclidian distance as the heuristic
+def h_euclid(pos, goal): # Use euclidean distance as the heuristic
     return np.sqrt(np.power(pos[0]-goal[0],2)+np.power(pos[1]-goal[1],2))
 
-def d_euclid(pos1, pos2): # Use euclidian distance
+def d_euclid(pos1, pos2):
     return np.sqrt(np.power(pos1[0]-pos2[0],2)+np.power(pos1[1]-pos2[1],2))
 
 
-def h_manhattan(pos, goal):
+def h_manhattan(pos, goal): # Use manhattan distance as heuristic
     return abs(pos[0]-goal[0]) + abs(pos[1]-goal[1])
 
 def d_manhattan(pos1, pos2):
@@ -31,7 +30,7 @@ def rebuild_path(came_from, goal, start):
     return path
 
 
-def Astar (maze, start=False, goal=False):
+def Astar (maze: list, start: tuple = False, goal: tuple = False) -> list:
     
     if not (start and goal):
         for i in range(len(maze)): # Find start and goal positions, if not already given.
@@ -41,11 +40,12 @@ def Astar (maze, start=False, goal=False):
                 elif maze[i][j] == 3:
                     goal = (i,j)
                 elif start and goal: # If we know where both are, we have all the info we need
-                    break    
+                    break
+            if start and goal:
+                break
     
     if not (start and goal):
         print("No start and/or end goal found/given")
-        return -2
 
     f_scores = [row.copy() for row in maze] # Map of f_scores per position
     g_scores = [row.copy() for row in maze] # Map of g_scores per position 
@@ -72,7 +72,7 @@ def Astar (maze, start=False, goal=False):
             return rebuild_path(came_from,goal,start)
 
         # Obtain (euclidean) neighbours of current node
-        #neighbours = [(x+dx,y+dy) for dx in range(-1,2) for dy in range(-1,2) if (dx != 0 or dy != 0) and (x+dx >= 0) and (y+dy >= 0)]
+        # neighbours = [(x+dx,y+dy) for dx in range(-1,2) for dy in range(-1,2) if (dx != 0 or dy != 0) and (x+dx >= 0) and (y+dy >= 0)]
         
         # Obtain (manhattan) neighbours of current node
         neighbours = [(x+dx,y+dy) for dx,dy in [(-1,0),(1,0),(0,-1),(0,1)] if (x+dx >= 0) and (y+dy >= 0)]
@@ -107,10 +107,10 @@ def Astar (maze, start=False, goal=False):
 
 if (__name__=="__main__"):
     pg.init()
-    screen_size = 1000
+    screen_size = 1003
     screen = pg.display.set_mode((screen_size, screen_size))
 
-    maze_size = 7
+    maze_size = 1001
     
     maze = generate_maze(maze_size,5)
     
@@ -128,6 +128,7 @@ if (__name__=="__main__"):
     # Get solution
     solution = Astar(maze,(0,0),(maze_size-1,maze_size-1))
 
+    # If solution failed
     if isinstance(solution, int):
         quit()
 
@@ -141,7 +142,7 @@ if (__name__=="__main__"):
 
     scale = screen_size//(maze_size+2)
 
-    while True:
-        screen.fill((0,0,0))
-        screen.blit(pg.transform.scale(maze_display, (screen_size-scale*2,screen_size-scale*2)), (scale,scale) )
-        pg.display.update()
+    screen.fill((0,0,0))
+    screen.blit(pg.transform.scale(maze_display, (screen_size-scale*2,screen_size-scale*2)), (scale,scale) )
+    pg.display.update()
+    #pg.image.save(pg.display.get_surface(), "Temp.png")
