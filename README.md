@@ -9,16 +9,16 @@ These were originally seperate projects, however, I decided it would probably be
 ## Examples
 11x11 Maze
 
-![Solved maze of size 11](Test.png)
+![Solved maze of size 11](docs/Test.png)
 
 101x101 Maze
 
-![Solved maze of size 101](Test1.png)
+![Solved maze of size 101](docs/Test1.png)
 
 601x601
 
-![Solved maze of size 101](Test2.png)
+![Solved maze of size 101](docs/Test2.png)
 
 1001x1001
 
-![Solved maze of size 101](Test3.png)
+![Solved maze of size 101](docs/Test3.png)
