@@ -106,9 +106,7 @@ def Astar (maze: list, start: tuple = False, goal: tuple = False) -> list:
 
 
 if (__name__=="__main__"):
-    pg.init()
     screen_size = 1003
-    screen = pg.display.set_mode((screen_size, screen_size))
 
     maze_size = 1001
     
@@ -142,7 +140,10 @@ if (__name__=="__main__"):
 
     scale = screen_size//(maze_size+2)
 
-    screen.fill((0,0,0))
-    screen.blit(pg.transform.scale(maze_display, (screen_size-scale*2,screen_size-scale*2)), (scale,scale) )
-    pg.display.update()
+    pg.init()
+    screen = pg.display.set_mode((screen_size, screen_size))
+    while True:
+        screen.fill((0,0,0))
+        screen.blit(pg.transform.scale(maze_display, (screen_size-scale*2,screen_size-scale*2)), (scale,scale) )
+        pg.display.update()
     #pg.image.save(pg.display.get_surface(), "Temp.png")
